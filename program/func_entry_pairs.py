@@ -85,16 +85,10 @@ def open_positions(client):
           # Get size
           account = client.private.get_account()
           equity = float(account.data["account"]["equity"])
-          if abs(z_score) >= 4:
-            trade_percentage = 0.10  # 10% of capital
-          elif abs(z_score) >= 3:
-            trade_percentage = 0.08  # 8% of capital
-          elif abs(z_score) >= 2.5:
-            trade_percentage = 0.06  # 6% of capital
-          elif abs(z_score) >= 2:
-            trade_percentage = 0.04  # 4% of capital
+          if abs(z_score) >= 2:
+            trade_percentage = 0.15  # 15% of capital
           elif abs(z_score) >= 1.5:
-            trade_percentage = 0.02  # 2% of capital
+            trade_percentage = 0.1  # 10% of capital
           else:
             trade_percentage = 0  # No trade if Z-Score is less than 1.5
             
