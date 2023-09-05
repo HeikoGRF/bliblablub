@@ -3,6 +3,7 @@ import numpy as np
 import statsmodels.api as sm
 from statsmodels.tsa.stattools import coint
 from constants import MAX_HALF_LIFE, WINDOW
+from blacklist import blacklist
 
 # Calculate Half Life
 # https://www.pythonforfinance.net/2016/05/09/python-backtesting-mean-reversion-part-2/
@@ -83,7 +84,7 @@ def store_cointegration_results(client, df_market_prices):
       # quote_candle = quote_candle_response.data["candles"][-1]
 
       # Log pair
-      if coint_flag == 1 and half_life <= MAX_HALF_LIFE and half_life > 0: # and float(base_candle["usdVolume"]) > 100000 and float(quote_candle["usdVolume"]) > 100000: # base_market not in blacklist and quote_market not in blacklist
+      if coint_flag == 1 and half_life <= MAX_HALF_LIFE and half_life > 0 and base_market not in blacklist and quote_market not in blacklist: # and float(base_candle["usdVolume"]) > 100000 and float(quote_candle["usdVolume"]) > 100000: # base_market not in blacklist and quote_market not in blacklist
         criteria_met_pairs.append({
           "base_market": base_market,
           "quote_market": quote_market,
