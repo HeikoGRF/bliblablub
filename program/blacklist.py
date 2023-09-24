@@ -1,1 +1,1 @@
-blacklist = ["FIL-USD", "UMA-USD"]
+blacklist = ["FIL-USD", "UMA-USD", "XMR-USD", "UNI-USD"]
