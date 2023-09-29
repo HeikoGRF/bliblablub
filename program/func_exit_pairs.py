@@ -84,9 +84,6 @@ def manage_trade_exits(client):
     if not check_m1 or not check_m2 or not check_live:
       print(f"Warning: Not all open positions match exchange records for {position_market_m1} and {position_market_m2}")
       
-      # If the position does not exist on the exchange but exists in the JSON file, remove it from the list to save.
-      save_output = [position for position in save_output if position['market_1'] != position_market_m1 or position['market_2'] != position_market_m2]
-
       
       # Determine side - m1
       side_m1 = "SELL"
@@ -97,6 +94,14 @@ def manage_trade_exits(client):
       side_m2 = "SELL"
       if position_side_m2 == "SELL":
         side_m2 = "BUY"
+        
+      # If a position exists in the JSON but not on the exchange, remove it from the JSON
+      with open('bot_agents.json', 'r') as file:
+          data = json.load(file)
+          for position in data:
+              if position['market_1'] == position_market_m1 and position['market_2'] == position_market_m2:
+                  data.remove(position)
+                  break
 
       # Get and format Price
       price_m1 = float(series_1[-1])
