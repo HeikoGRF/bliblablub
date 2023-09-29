@@ -1,1 +1,1 @@
-[]
+[{"market_1": "ALGO-USD", "market_2": "SUSHI-USD", "hedge_ratio": 0.1829343465709437, "z_score": 1.7483783946245461, "half_life": 6.0, "order_id_m1": "5737576ff0c2a6fbc801176853e874b9dddffc68bd704acbe7ee90f29bc431b", "order_m1_size": "914", "order_m1_side": "SELL", "order_time_m1": "2023-09-29T21:55:01.029553", "order_id_m2": "60b0f2e255d7455eead03a66d2f298c897d0667250e539a34e77d2a0749274a", "order_m2_size": "158.5", "order_m2_side": "BUY", "order_time_m2": "2023-09-29T21:55:20.078041", "pair_status": "LIVE", "comments": ""}]
