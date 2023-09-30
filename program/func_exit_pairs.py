@@ -8,8 +8,10 @@ import time
 
 from pprint import pprint
 
+
 # Manage trade exits
 def manage_trade_exits(client):
+  
 
   """
     Manage exiting open positions
@@ -79,6 +81,8 @@ def manage_trade_exits(client):
     check_m1 = position_market_m1 == order_market_m1 and position_size_m1 == order_size_m1 and position_side_m1 == order_side_m1
     check_m2 = position_market_m2 == order_market_m2 and position_size_m2 == order_size_m2 and position_side_m2 == order_side_m2
     check_live = position_market_m1 in markets_live and position_market_m2 in markets_live
+
+
 
     # Guard: If not all match exit with error
     if not check_m1 or not check_m2 or not check_live:
@@ -255,6 +259,28 @@ def manage_trade_exits(client):
     else:
       save_output.append(position)
 
+  valid_positions = []
+
+  # Durchlaufe alle im open_positions_dict gespeicherten Positionen
+  for position in save_output:
+    
+      # Extrahiere die relevanten Informationen aus der aktuellen Position
+      position_market_m1 = position["market_1"]
+      position_market_m2 = position["market_2"]
+      position_order_id_m1 = position["order_id_m1"]
+      position_order_id_m2 = position["order_id_m2"]
+
+      # Überprüfe, ob die Positionen für market_1 und market_2 tatsächlich geöffnet sind
+      check_m1 = check_m1(position_market_m1, position_order_id_m1)
+      check_m2 = check_m2(position_market_m2, position_order_id_m2)
+      check_live = position["pair_status"] == "LIVE"
+      
+      if check_m1 and check_m2 and check_live:
+          valid_positions.append(position)
+
+  # Setzen Sie open_positions_dict gleich valid_positions
+  save_output = valid_positions
+  
   # Save remaining items
   print(f"{len(save_output)} Items remaining. Saving file...")
   with open("bot_agents.json", "w") as f:
