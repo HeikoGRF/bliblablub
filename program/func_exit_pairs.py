@@ -5,13 +5,39 @@ from func_cointegration import calculate_zscore
 from func_private import place_market_order
 import json
 import time
+from func_private import get_orders
+
 
 from pprint import pprint
 
+def validate_open_positions():
+    try:
+        # Hole alle tatsächlich offenen Positionen
+        actual_open_orders = get_orders()
+
+        # Lese den aktuellen Inhalt der bot_agent.json Datei
+        with open('bot_agent.json', 'r') as file:
+            data = json.load(file)
+
+        # Filtere die Positionen in bot_agent.json, die tatsächlich offen sind
+        valid_positions = []
+        for position in data:
+            # Checke ob die Positionen für market_1 und market_2 tatsächlich geöffnet sind
+            if any(order['id'] == position['order_id_m1'] for order in actual_open_orders) and \
+               any(order['id'] == position['order_id_m2'] for order in actual_open_orders):
+                valid_positions.append(position)
+
+        # Schreibe die validen Positionen zurück in die bot_agent.json Datei
+        with open('bot_agent.json', 'w') as file:
+            json.dump(valid_positions, file)
+
+    except Exception as e:
+        print(f"Fehler beim Validieren der offenen Positionen: {e}")
 
 # Manage trade exits
 def manage_trade_exits(client):
   
+  validate_open_positions()
 
   """
     Manage exiting open positions
